@@ -13,7 +13,7 @@ class HorarioEspecialPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user -> hasRole('Administrador');
+        return false;
     }
 
     /**
@@ -21,7 +21,7 @@ class HorarioEspecialPolicy
      */
     public function view(User $user, HorarioEspecial $horarioEspecial): bool
     {
-        return $user -> hasRole('Administrador');
+        return false;
     }
 
     /**
@@ -29,7 +29,7 @@ class HorarioEspecialPolicy
      */
     public function create(User $user): bool
     {
-        return $user -> hasRole('Administrador');
+        return false;
     }
 
     /**
@@ -37,7 +37,7 @@ class HorarioEspecialPolicy
      */
     public function update(User $user, HorarioEspecial $horarioEspecial): bool
     {
-        return $user -> hasRole('Administrador');
+        return false;
     }
 
     /**
@@ -45,7 +45,7 @@ class HorarioEspecialPolicy
      */
     public function delete(User $user, HorarioEspecial $horarioEspecial): bool
     {
-        return $user -> hasRole('Administrador');
+        return false;
     }
 
     /**
@@ -53,7 +53,7 @@ class HorarioEspecialPolicy
      */
     public function restore(User $user, HorarioEspecial $horarioEspecial): bool
     {
-        return $user -> hasRole('Administrador');
+        return false;
     }
 
     /**
@@ -61,6 +61,6 @@ class HorarioEspecialPolicy
      */
     public function forceDelete(User $user, HorarioEspecial $horarioEspecial): bool
     {
-        return $user -> hasRole('Administrador');
+        return false;
     }
 }

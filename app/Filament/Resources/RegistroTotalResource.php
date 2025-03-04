@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RegistroTotalResource\Pages;
-use App\Filament\Resources\RegistroTotalResource\RelationManagers;
 use App\Models\RegistroTotal;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RegistroTotalResource extends Resource
 {
@@ -23,17 +21,20 @@ class RegistroTotalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->label('Trabajador')
+                    ->required(),
                 Forms\Components\TextInput::make('total_tiempo')
-                    ->required()
                     ->numeric()
-                    ->default(0),
+                    ->label('Total Horas')
+                    ->default(0)
+                    ->disabled(),
                 Forms\Components\TextInput::make('saldo')
-                    ->required()
                     ->numeric()
-                    ->default(0),
+                    ->label('Saldo (Minutos)')
+                    ->default(0)
+                    ->disabled(),
             ]);
     }
 
@@ -41,26 +42,17 @@ class RegistroTotalResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Trabajador')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total_tiempo')
-                    ->numeric()
+                    ->label('Total Horas')
+                    ->formatStateUsing(fn ($state) => round($state / 60, 2) . ' hrs')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('saldo')
-                    ->numeric()
+                    ->label('Saldo (Minutos)')
+                    ->formatStateUsing(fn ($state) => $state . ' min')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -70,13 +62,6 @@ class RegistroTotalResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
