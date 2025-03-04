@@ -18,14 +18,15 @@ class AsistenciaTrabajadorResource extends Resource
     protected static ?string $model = AsistenciaTrabajador::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Asistencia';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Select::make('user_id')
                     ->required()
-                    ->numeric(),
+                    ->relationship('user', 'name'),
                 Forms\Components\DatePicker::make('fecha')
                     ->required(),
                 Forms\Components\TextInput::make('ingreso')
@@ -38,9 +39,8 @@ class AsistenciaTrabajadorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Usuario'),
                 Tables\Columns\TextColumn::make('fecha')
                     ->date()
                     ->sortable(),
@@ -58,8 +58,9 @@ class AsistenciaTrabajadorResource extends Resource
             ->filters([
                 //
             ])
+
             ->actions([
-                Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

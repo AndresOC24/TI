@@ -23,12 +23,12 @@ class HorarioRegularResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Select::make('user_id')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('ingreso')
+                    ->relationship('user', 'name'),
+                Forms\Components\TimePicker::make('ingreso')
                     ->required(),
-                Forms\Components\TextInput::make('salida')
+                Forms\Components\TimePicker::make('salida')
                     ->required(),
             ]);
     }
@@ -37,9 +37,8 @@ class HorarioRegularResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                ->label('Usuario'),
                 Tables\Columns\TextColumn::make('ingreso'),
                 Tables\Columns\TextColumn::make('salida'),
                 Tables\Columns\TextColumn::make('created_at')

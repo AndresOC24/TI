@@ -45,4 +45,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**Relaciones con HorarioRegular, AsistenciaTrabajador y RegistroTotal */
+    public function horarioRegular()
+    {
+        return $this->hasOne(HorarioRegular::class);
+    }
+
+    public function asistenciasTrabajador()
+    {
+        return $this->hasMany(AsistenciaTrabajador::class);
+    }
+
+    public function registroTotal()
+    {
+        return $this->hasOne(RegistroTotal::class);
+    }
 }

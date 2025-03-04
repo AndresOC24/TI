@@ -24,8 +24,7 @@ class AsistenciaBecarioResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
+                    ->required(),
                 Forms\Components\DatePicker::make('fecha')
                     ->required(),
                 Forms\Components\TextInput::make('ingreso')
@@ -38,8 +37,8 @@ class AsistenciaBecarioResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Usuario')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
                     ->date()
