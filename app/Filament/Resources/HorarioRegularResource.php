@@ -18,12 +18,25 @@ class HorarioRegularResource extends Resource
     protected static ?string $model = HorarioRegular::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Horarios';
+
+    // Agrega esta función para cambiar el nombre en el menú de navegación
+    public static function getNavigationLabel(): string
+    {
+        return 'Horario Establecidos';
+    }
+
+    public static function getModelLabel(): string
+    {
+        return 'Horario Establecidos'; // Nombre en singular
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
+                    ->label('Usuario')
                     ->required()
                     ->relationship('user', 'name'),
                 Forms\Components\TimePicker::make('ingreso')

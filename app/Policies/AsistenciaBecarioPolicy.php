@@ -48,6 +48,11 @@ class AsistenciaBecarioPolicy
         return $user -> hasRole('Administrador');
     }
 
+    public function deleteAny(User $user): bool
+    {
+        return $user->hasRole('Administrador'); // También bloquea eliminaciones masivas
+    }
+
     /**
      * Determine whether the user can restore the model.
      */

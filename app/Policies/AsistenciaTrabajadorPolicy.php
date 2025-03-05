@@ -13,7 +13,7 @@ class AsistenciaTrabajadorPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user -> hasRole(['Administrador', 'Trabajador']);
+        return $user -> hasRole(['Administrador', 'Colaborador']);
     }
 
     /**
@@ -21,7 +21,7 @@ class AsistenciaTrabajadorPolicy
      */
     public function view(User $user, AsistenciaTrabajador $asistenciaTrabajador): bool
     {
-        return $user -> hasRole(['Administrador', 'Trabajador']);
+        return $user -> hasRole(['Administrador', 'Colaborador']);
     }
 
     /**
@@ -48,6 +48,11 @@ class AsistenciaTrabajadorPolicy
         return $user -> hasRole('Administrador');
     }
 
+    public function deleteAny(User $user): bool
+    {
+        return $user->hasRole('Administrador'); // También bloquea eliminaciones masivas
+    }
+
     /**
      * Determine whether the user can restore the model.
      */
@@ -63,4 +68,7 @@ class AsistenciaTrabajadorPolicy
     {
         return $user -> hasRole('Administrador');
     }
+
+
+
 }

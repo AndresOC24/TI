@@ -18,7 +18,18 @@ class AsistenciaTrabajadorResource extends Resource
     protected static ?string $model = AsistenciaTrabajador::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Asistencia';
+    protected static ?string $navigationGroup = 'Asistencias';
+
+    // Agrega esta función para cambiar el nombre en el menú de navegación
+    public static function getNavigationLabel(): string
+    {
+        return 'Asistencia Colaboradores';
+    }
+
+    public static function getModelLabel(): string
+    {
+        return 'Asistencia Colaboradores'; // Nombre en singular
+    }
 
     public static function form(Form $form): Form
     {
@@ -40,20 +51,20 @@ class AsistenciaTrabajadorResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Usuario'),
+                    ->label('Nombre'),
                 Tables\Columns\TextColumn::make('fecha')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ingreso'),
                 Tables\Columns\TextColumn::make('salida'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

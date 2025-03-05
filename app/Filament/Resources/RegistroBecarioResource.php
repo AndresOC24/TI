@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RegistroBecarioResource\Pages;
-use App\Filament\Resources\RegistroBecarioResource\RelationManagers;
 use App\Models\RegistroBecario;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,26 +10,29 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class RegistroBecarioResource extends Resource
 {
     protected static ?string $model = RegistroBecario::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Asistencia';
+    protected static ?string $navigationGroup = 'Registros';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->label('Becario')
+                    ->disabled()
+                    ->required(),
                 Forms\Components\TextInput::make('horas_total')
-                    ->required()
                     ->numeric()
-                    ->default(0),
+                    ->label('Total Horas')
+                    ->default(0)
+                    ->disabled(fn () => !Auth::user()->hasRole('Administrador')),
             ]);
     }
 
@@ -38,23 +40,13 @@ class RegistroBecarioResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Becario')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('horas_total')
-                    ->numeric()
+                    ->label('Total Horas')
+                    ->formatStateUsing(fn ($state) => round($state, 2) . ' hrs')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -64,13 +56,6 @@ class RegistroBecarioResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

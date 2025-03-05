@@ -18,6 +18,7 @@ class AsistenciaBecarioResource extends Resource
     protected static ?string $model = AsistenciaBecario::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Asistencias';
 
     public static function form(Form $form): Form
     {
@@ -38,7 +39,7 @@ class AsistenciaBecarioResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Usuario')
+                    ->label('Nombre')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fecha')
                     ->date()
